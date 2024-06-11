@@ -7,7 +7,7 @@ psycopg
 SQLAlchemy
 SQLAlchemy-Utils
 Flask-SQLAlchemy
-alembic==1.13.1
+alembic
 
 redis
 celery
