@@ -10,6 +10,8 @@ from hello.extensions import flask_static_digest
 from hello.page.views import page
 from hello.up.views import up
 
+from oailang import run_oai_sql
+
 
 def create_celery_app(app=None):
     """
@@ -55,6 +57,15 @@ def create_app(settings_override=None):
 
     extensions(app)
 
+    @app.route("api/", methods=['GET'])
+    def main():
+        return "<p>AI API</p>"
+
+    @app.route('api/oaisql/<query>', methods=['POST'])
+    def call_ai(query):
+        # 'query' is the variable part of the URL that you pass in
+        return run_oai_sql(output)
+
     return app
 
 
@@ -79,7 +90,7 @@ def middleware(app):
     :param app: Flask application instance
     :return: None
     """
-    # Enable the Flask interactive debugger in the brower for development.
+    # Enable the Flask interactive debugger in the browser for development.
     if app.debug:
         app.wsgi_app = DebuggedApplication(app.wsgi_app, evalex=True)
 
@@ -90,3 +101,4 @@ def middleware(app):
 
 
 celery_app = create_celery_app()
+
